@@ -24,5 +24,5 @@
         }
     </JavaScript>
     <Panel ux:Name='pickerOutlet' />
-    <Picker Selected='{selected}'  Options='{brands}' outlet='pickerOutlet' Label='DEVICE BRAND' />
+    <Picker Margin='20,0' Selected='{selected}'  Options='{brands}' outlet='pickerOutlet' Label='DEVICE BRAND' />
 </App>
