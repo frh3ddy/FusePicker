@@ -1,0 +1,48 @@
+<Panel Alignment='Center' ux:Class='PickerOptions' Width='200' Height='300' Visibility='Collapsed' Y='200'>
+    <object ux:Property='Selected'/>
+    <bool ux:Property='Showing'/>
+    <object ux:Property='Options'/>
+    <JavaScript>
+        var Observable = require('FuseJS/Observable')
+        var selected = this.Selected.innerTwoWay()
+        
+        var options = this.Options.inner()
+        module.exports = {
+            selected: selected,
+            options: options
+        }
+    </JavaScript>
+    <DockPanel ux:Class='Option' Height='50' Text='p' HitTestMode='LocalBounds'>
+        <string ux:Property='Text'/>
+        <Clicked>
+            <ToggleSelection/>
+        </Clicked>
+        <WhileSelected>
+            <Change circleColor.Color='#007aff'/>
+            <Change strokeColor.Color='#007aff'/>
+        </WhileSelected>
+
+        <Selectable Value='{ReadProperty Text}'/>
+        <Circle Dock='Right' Width="20" Height="20"  Margin='0,0,20,0' Padding='4'>
+            <Image File='../check@3x.png' Color='#fff' StretchMode='Uniform'/>
+            <SolidColor ux:Name='circleColor' Color='#fff'/>
+            <Stroke Width="1">
+                <SolidColor ux:Name='strokeColor' Color="#324659" />
+            </Stroke>
+        </Circle>
+        <Text Dock='Fill' Alignment='VerticalCenter' Value='{ReadProperty Text}' Margin='20, 0'/>
+    </DockPanel>
+    <WhileTrue Value='{ReadProperty Showing}'>
+        <Change this.Visibility='Visible'/>
+        <Move Y="-200" Duration=".25" Easing='BackOut' DurationBack='.2'/>
+    </WhileTrue>
+    <Mask File="../BGMask.png" Mode='Grayscale'/>
+    <ScrollView Background='White'>
+        <StackPanel>
+            <Selection Value='{selected}' MaxCount='1' MinCount='1'/>
+            <Each Items='{options}'>
+                <Option Text='{}'/>
+            </Each>
+        </StackPanel>
+    </ScrollView>
+</Panel>

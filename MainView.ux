@@ -1,0 +1,28 @@
+<App>
+    <JavaScript>
+        var Observable = require('FuseJS/Observable')
+        var selected = Observable('')
+        var brands = [
+            'Acer',
+            'Apple',
+            'Asus',
+            'Dell',
+            'HP',
+            'Lenovo',
+            'Samsung',
+            'Sony',
+            'Toshiba',
+            'Gateway',
+            'Compaq',
+            'Alienware',
+            'IBM'
+        ]
+
+        module.exports = {
+            selected: selected,
+            brands: brands
+        }
+    </JavaScript>
+    <Panel ux:Name='pickerOutlet' />
+    <Picker Selected='{selected}'  Options='{brands}' outlet='pickerOutlet' Label='DEVICE BRAND' />
+</App>

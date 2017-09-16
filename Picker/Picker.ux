@@ -1,0 +1,61 @@
+<Panel ux:Class='Picker' Height='50'>
+    <Visual ux:Dependency="outlet" />
+    <object ux:Property="Options" />
+    <object ux:Property="Selected" />
+    <string ux:Property="Label"/>
+    <JavaScript>
+        var Observable = require('FuseJS/Observable')
+        var selected = this.Selected.innerTwoWay()
+        var showOptions = Observable(false)
+        var options = this.Options.inner()
+        
+        selected.onValueChanged(module, function(value) {
+            if(value === '') return
+            showOptions.value = false
+        })
+
+        module.exports = {
+            selected: selected,
+            showOptions: showOptions,
+            options: options
+        }
+    </JavaScript>
+    <Clicked>
+        <Set optionsContainer.Value='true'/>
+    </Clicked>
+
+    <AlternateRoot ParentNode="outlet">
+        <PickerOptions ux:Name='pik' Selected='{selected}' Options='{options}' Showing='false'/>
+    </AlternateRoot>
+
+    <WhileTrue ux:Name='optionsContainer' Value='{showOptions}'>
+        <Change holo.Opacity='.4' Duration='.2'/>
+        <Change pik.Showing='true'/>
+        <AlternateRoot ParentNode="outlet">
+            <Panel Opacity='0' Color='#000' ux:Name='holo'>
+                <Tapped>
+                    <Set optionsContainer.Value='false' />
+                </Tapped>
+            </Panel>
+        </AlternateRoot>
+    </WhileTrue>
+
+    <Rectangle Color='#fff' Layer='Background' CornerRadius='5'>
+        <Stroke Width='1' Color='#f1f0f0' />
+    </Rectangle>
+    <Image File='../chevron-down@3x.png' Alignment='Right' Color='#f1f0f0' Width='20' Margin='0,0,20,0'/>
+    <Text ux:Name='label' Value='{ReadProperty Label}' TextColor='#0078cf' Margin='10, 0'
+    TransformOrigin='TopLeft' 
+    Alignment='VerticalCenter'>
+        <WhileTrue ux:Name='labelBool'>
+            <Change labelScale.Factor='.70' Duration='.3' Easing='BounceOut' EasingBack='BounceIn'/>
+            <Move Y='-10' Duration='.3' Easing='BounceOut' EasingBack='BounceIn'/>
+        </WhileTrue>
+        <Scaling ux:Name='labelScale' Factor='1' />
+    </Text>
+    <Text Value='{selected}' Alignment='Bottom' Margin='10, 0, 0, 5'>
+        <WhileContainsText>
+            <Change labelBool.Value='true'/>
+        </WhileContainsText>
+    </Text>
+</Panel>
